@@ -1,90 +1,103 @@
 import React from 'react'
 import '../stylesheets/Login.css';
 import { Formik } from 'formik';
-import app_config from './config';
+import { BrowserRouter, Link } from 'react-router-dom';
+import app_config from '../config';
 import Swal from 'sweetalert2';
 import clsx from 'clsx';
+import { makeStyles } from '@material-ui/core';
 
 export default function Login() {
-	const myStyles = makeStyles(() => ({
-		mycard: {
-			marginTop: '10rem',
-			boxShadow: '0px 6px 6px -3px rgba(0,0,0,0.2),0px 10px 14px 1px rgba(0,0,0,0.14),0px 4px 18px 3px rgba(0,0,0,0.12)'
-		}
-	}))
-	const Login = () => {
+	const url = app_config.api_url;
 
-		const url = app_config.api_url;
-		const classes = myStyles();
-	
-		const loginform = {
-			email: '',
-			password: ''
-		}
-	
-		const formSubmit = (values) => {
-	
-			fetch(url + 'user/getbyemail/' + values.email)
-				.then(res => res.json())
-				.then(data => {
-					if (data) {
-						console.log(data);
-	
-						if (data.password == values.password) {
-							console.log('login success');
-	
-							Swal.fire({
-								icon: 'success',
-								title: 'Login Success',
-							})
-	
-							sessionStorage.setItem('user', JSON.stringify(data));
-							window.location.replace('/product');
-	
-							return
-						}
-					}
-	
-					Swal.fire({
-						icon: 'error',
-						title: 'Email or Password Incorrect'
-					})
-	
-				})
-	
-	
-		}
+    const Loginform = {
+        name: '',
+        email: '',
+        mobile: '',
+        address: '',
+        password: ''
+    }
+
+    const formSubmit = (values) => {
+        console.log(values);
+
+
+        const reqOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(values)
+        }
+
+        // request on server and parse the json response
+        fetch(url + 'user/add', reqOptions)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.message == 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Registered!',
+                        text: 'Now Login to Continue'
+                    })
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops!',
+                        text: 'Something went wrong'
+                    })
+                }
+
+            })
+    }
 	return (
-		<div>
-<div class="wrap">
-		<div class="avatar">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgPTkZXy_59HnXdy7xdeNUtuAMc_r3mP9Vpw&usqp=CAU"/>
-		</div>
-		<Formik
-                            initialValues={loginform}
+		<div className="main-w3layouts wrapper">
+<h1>LOGIN FORM</h1>
+<div className="main-agileinfo">
+	<div className="agileits-top">
+	<Formik
+                            initialValues={Loginform}
                             onSubmit={formSubmit}
                         >{({
                             values,
                             handleChange,
                             handleSubmit
                         }) => (
-                            <form onSubmit={handleSubmit}>
-		{/* <input type="text" placeholder="username" required/> */}
-		<label className="mt-5 w-100">Email</label>
-                                <input className="form-control" onChange={handleChange} value={values.email} name="email" />
-		<div class="bar">
-			<i></i>
-		</div>
-		{/* <input type="password" placeholder="password" required/> */}
-		<label className="mt-4">Password</label>
-                                <input className="form-control" onChange={handleChange} value={values.password} type="password" name="password" />
-		<a href="" class="forgot_link">forgot ?</a>
-		<button>Sign in</button>
-		</form>
-		)}
-		</Formik>
+							<form onSubmit={handleSubmit}>
+
+								{/* <label className="mt-3">Name</label>
+								<input className="text" type="text" onChange={handleChange} value={values.name} name="name" /> */}
+
+								<label className="mt-3">Email</label>
+								<input className="text email" type="email" onChange={handleChange} value={values.email} name="email" />
+
+								<label className="mt-3">Password</label>
+								<input className="text" type="password" type="password" onChange={handleChange} value={values.password} name="password" />
+
+								<button type="submit" className="btn btn-primary mt-5">Submit</button>
+							</form>
+						)}
+					</Formik>
+		<p>Don't have an Account?<BrowserRouter> <Link to="/login">Forgot Password</Link ></BrowserRouter></p>
 	</div>
-		</div>
-	)
-}
+</div>
+
+<div className="colorlibcopy-agile">
+	<p>© 2018 Colorlib Signup Form. All rights reserved | Design by <a href="https://colorlib.com/" target="_blank">Colorlib</a></p>
+</div>
+
+<ul className="colorlib-bubbles">
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+</ul>
+</div>
+
+)
 }
