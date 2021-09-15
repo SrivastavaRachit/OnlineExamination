@@ -47,10 +47,10 @@ const AddPaper = () => {
                 )}
             </Formik>
             {
-                curriculum.sections.map((section, sect_i) =>
+                questionPaper.questions.map((question, sect_i) =>
                 (
                     <div style={{ padding: '2rem', border: '1px solid gray', background: 'grey', marginTop: '1rem' }} key={sect_i}>
-                        <h3>Section {`${sect_i + 1}: `}<InputBase value={section.name} onChange={e => handleRename('sect_name', e.target.value, sect_i, 0)}></InputBase></h3>
+                        <h3>Section {`${sect_i + 1}: `}<InputBase value={question.name} onChange={e => handleRename('sect_name', e.target.value, sect_i, 0)}></InputBase></h3>
                         <InputBase value={section.description} onChange={e => handleRename('sect_desc', e.target.value, sect_i, 0)}></InputBase>
                         {
                             section.lectures.map((lecture, lect_i) =>
