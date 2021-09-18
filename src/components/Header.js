@@ -23,7 +23,9 @@ export default function Header() {
           </BrowserRouter>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Paper</a>
+          <BrowserRouter>
+          <Link class="nav-link" href="#">Paper</Link>
+          </BrowserRouter>
         </li>
         <li class="nav-item">
           <BrowserRouter>
