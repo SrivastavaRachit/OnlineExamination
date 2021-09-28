@@ -12,8 +12,8 @@ function App() {
   return (
     <div>
 
-      <Header></Header>
       <Router>
+        <Header></Header>
         <Redirect to="/Home" path="/">
         </Redirect>
         <Route component={Login} path={"/Login"}></Route>

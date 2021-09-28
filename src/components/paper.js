@@ -1,5 +1,7 @@
 import { Formik } from "formik";
 import React, { useState } from "react";
+import { Button, InputBase } from '@material-ui/core';
+import { update } from 'immutability-helper';
 
 const AddPaper = () => {
 
@@ -30,6 +32,54 @@ const AddPaper = () => {
         console.log(values);
     }
 
+    const addNewQuestion = () => {
+        const newQues = {
+            name: 'Question 1',
+            answertype: 'text',
+            answer: '',
+        }
+
+        const newData = update(questionPaper, {
+            questions: {
+                $push: [newQues]
+            }
+        });
+
+        setQuestionPaper(newData);
+
+    }
+
+    // const createCourse = () => {
+    //     let formdata = tempForm;
+    //     formdata['data'] = curriculum;
+    //     formdata['avatar'] = avatar;
+    //     console.log(formdata);
+    //     courseService.addCourse(formdata)
+    //         .then(res => {
+    //             console.log(res);
+    //             Swal.fire({
+    //                 icon: 'success',
+    //                 title: 'Sucess',
+    //                 text: 'Course Added Successfully'
+    //             })
+    //         })
+    // }
+
+    const handleRename = (prop, val, ques_i) => {
+
+        const questions = {}
+
+        if (prop == 'ques_name') {
+            questions[ques_i] = { name: { $set: val } };
+        }
+
+        const newData = update(questionPaper, {
+            questions: questions
+        });
+
+        setQuestionPaper(newData);
+    }
+
     return (
         <div>
             <Formik
@@ -50,36 +100,16 @@ const AddPaper = () => {
                 questionPaper.questions.map((question, sect_i) =>
                 (
                     <div style={{ padding: '2rem', border: '1px solid gray', background: 'grey', marginTop: '1rem' }} key={sect_i}>
-                        <h3>Section {`${sect_i + 1}: `}<InputBase value={question.name} onChange={e => handleRename('sect_name', e.target.value, sect_i, 0)}></InputBase></h3>
-                        <InputBase value={section.description} onChange={e => handleRename('sect_desc', e.target.value, sect_i, 0)}></InputBase>
-                        {
-                            section.lectures.map((lecture, lect_i) =>
-                            (
-                                <Accordion key={lect_i}>
-                                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                                        <h4>Lecture {`${lect_i + 1}: `}<InputBase value={lecture.name} onChange={e => handleRename('lect_name', e.target.value, sect_i, lect_i)}></InputBase></h4>
-                                    </AccordionSummary>
-                                    <AccordionDetails>
-                                        <InputBase value={lecture.description} onChange={e => handleRename('lect_desc', e.target.value, sect_i, lect_i)}></InputBase>
-                                        <label>Lecture Content</label>
-                                        <input type="file" onChange={e => handleFileUpload('content', e.target.files[0], sect_i, lect_i)} />
-                                    </AccordionDetails>
+                        <h3>Question {`${sect_i + 1}: `}</h3>
+                        <input className="form-control" value={question.name} onChange={e => handleRename('sect_name', e.target.value, sect_i, 0)} />
+                        <input value={question.description} onChange={e => handleRename('question', e.target.value, sect_i, 0)} />
 
-                                    <AccordionActions>
-
-                                    </AccordionActions>
-                                </Accordion>
-
-                            )
-                            )
-                        }
-                        <Button onClick={e => addNewLecture(sect_i)}>Add New Lecture</Button>
                     </div>
                 ))
             }
-            <Button onClick={addNewSection}>Add New Section</Button>
+            <Button onClick={addNewQuestion}>Add New Question</Button>
 
-            <Button className="w-100 mt-5" onClick={createCourse}>Create Course</Button>
+            <Button className="w-100 mt-5" >Create Course</Button>
 
         </div>
     )
