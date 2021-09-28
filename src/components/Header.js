@@ -14,15 +14,19 @@ export default function Header() {
             <ul class="navbar-nav">
               <li class="nav-item">
                 <Link class="nav-link active" aria-current="page" to="/Home">Home</Link>
+
               </li>
               <li class="nav-item">
+
                 <Link class="nav-link" to="/login">Login</Link>
               </li>
               <li class="nav-item">
-                <Link class="nav-link" to="/addpaper">Paper</Link>
+                <Link class="nav-link" href="#">Paper</Link>
+
               </li>
               <li class="nav-item">
                 <Link class="nav-link" to="/signup">SignUp</Link>
+
               </li>
               <li class="nav-item">
                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
@@ -32,5 +36,7 @@ export default function Header() {
         </div>
       </nav>
     </div>
+      </nav >
+    </div >
   )
 }
