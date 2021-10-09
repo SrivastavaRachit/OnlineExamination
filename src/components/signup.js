@@ -98,6 +98,6 @@ export default function signup() {
 					<li></li>
 				</ul>
 			</div>
-
-			)
+		</div>
+	)
 }

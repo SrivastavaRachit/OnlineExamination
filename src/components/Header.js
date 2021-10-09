@@ -3,7 +3,7 @@ import { BrowserRouter, Link } from 'react-router-dom';
 
 export default function Header() {
   return (
-    <div>
+    <>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">ExamPaper</a>
@@ -21,7 +21,7 @@ export default function Header() {
                 <Link class="nav-link" to="/login">Login</Link>
               </li>
               <li class="nav-item">
-                <Link class="nav-link" href="#">Paper</Link>
+                <Link class="nav-link" to="/addpaper">Paper</Link>
 
               </li>
               <li class="nav-item">
@@ -35,8 +35,6 @@ export default function Header() {
           </div>
         </div>
       </nav>
-    </div>
-      </nav >
-    </div >
+    </>
   )
 }

@@ -40,7 +40,7 @@ const Login = () => {
 						})
 
 						sessionStorage.setItem('user', JSON.stringify(data));
-						window.location.replace('/product');
+						window.location.replace('/addpaper');
 
 						return;
 					}
@@ -54,7 +54,7 @@ const Login = () => {
 			})
 	}
 
-	
+
 	return (
 		<div>
 			<div class="wrap">
