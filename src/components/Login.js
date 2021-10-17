@@ -56,9 +56,9 @@ const Login = () => {
 
 
 	return (
-		<div>
+		<div className="container">
 			<div class="wrap">
-				<div class="avatar">
+				<div className="avatar">
 					<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgPTkZXy_59HnXdy7xdeNUtuAMc_r3mP9Vpw&usqp=CAU" />
 				</div>
 				<Formik

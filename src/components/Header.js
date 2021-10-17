@@ -25,6 +25,10 @@ export default function Header() {
 
               </li>
               <li class="nav-item">
+                <Link class="nav-link" to="/manage">Manage Papers</Link>
+
+              </li>
+              <li class="nav-item">
                 <Link class="nav-link" to="/signup">SignUp</Link>
 
               </li>

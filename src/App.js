@@ -7,6 +7,7 @@ import signup from './components/signup';
 import Home from './components/Home';
 import Footer from './components/Footer';
 import AddPaper from './components/paper';
+import ManagePaper from './components/managepaper';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route component={Home} path={"/home"}></Route>
         <Route component={signup} path={"/signup"}></Route>
         <Route component={AddPaper} path={"/addpaper"}></Route>
+        <Route component={ManagePaper} path={"/manage"}></Route>
         <Footer></Footer>
 
 
