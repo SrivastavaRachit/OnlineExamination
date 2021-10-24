@@ -1,11 +1,14 @@
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { Button, InputBase } from '@material-ui/core';
-import { update } from 'immutability-helper';
+import update from 'immutability-helper';
+import app_config from "../config";
+import Swal from "sweetalert2";
 
 const AddPaper = () => {
 
     const [currentUser, setCurrentUser] = useState(JSON.parse(sessionStorage.getItem('user')));
+    const url = app_config.api_url;
 
     const [questionList, setQuestionList] = React.useState(
         [
@@ -13,6 +16,11 @@ const AddPaper = () => {
                 name: 'Question 1',
                 answertype: 'text',
                 answer: '',
+                options: [
+                    'opt1',
+                    'opt2',
+                    'opt3',
+                ]
             },
             {
                 name: 'Question 2',
@@ -37,7 +45,19 @@ const AddPaper = () => {
     }
 
     const formSubmit = (values) => {
+        values.questions = questionList;
         console.log(values);
+
+        fetch(url + '/paper/add', { method: 'POST', body: JSON.stringify(values), headers: { 'Content-Type': 'application/json' } })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Paper Added Successfully'
+                })
+            })
     }
 
     const addNewQuestion = () => {
@@ -45,6 +65,11 @@ const AddPaper = () => {
             name: 'Question ' + (questionList.length + 1),
             answertype: 'text',
             answer: '',
+            options: [
+                'opt1',
+                'opt2',
+                'opt3',
+            ]
         }
 
         setQuestionList([...questionList, newQues]);
@@ -90,6 +115,60 @@ const AddPaper = () => {
     //     setQuestionPaper(newData);
     // }
 
+    const setOption = (q_i, index, e) => {
+
+        const options = {};
+        const questions = {};
+
+        options[index] = { $set: e.target.value };
+        questions[q_i] = { options: options };
+
+        const newData = update(questionList, questions);
+
+        console.log(newData);
+        setQuestionList(newData);
+
+    }
+
+    const addOption = (q_i) => {
+        const questions = {};
+
+        questions[q_i] = { options: { $push: ["new option"] } };
+
+        const newData = update(questionList, questions);
+
+        console.log(newData);
+        setQuestionList(newData);
+    }
+
+    const changeType = (q_i, e) => {
+        const questions = {};
+
+        questions[q_i] = { answertype: { $set: e.target.value } };
+        questions[q_i] = { answertype: { $set: e.target.value } };
+
+        const newData = update(questionList, questions);
+
+        console.log(newData);
+        setQuestionList(newData);
+    }
+
+    const displayOptions = (q_i, type, options) => {
+        if (type == 'radio' || type == 'checkbox') {
+            return (<>
+
+                {
+                    options.map((op, i) => {
+                        return <input className="form-control mt-3 w-50" value={op} onChange={e => setOption(q_i, i, e)} />
+                    })
+                }
+                < Button onClick={e => addOption(q_i)} className="mt-3" color="primary" variant="contained" > + </Button >
+            </>
+            )
+
+        }
+    }
+
     return (
         <div>
 
@@ -126,6 +205,8 @@ const AddPaper = () => {
                                             </div>
                                         </div>
                                     </div>
+
+                                    <Button onClick={formSubmit} type="submit" className="w-25 mt-5" variant="outlined" >Create Paper</Button>
                                 </form>
                             )}
                         </Formik>
@@ -154,22 +235,27 @@ const AddPaper = () => {
                                 </div>
                                 <div class="input-group mt-3">
                                     <span class="input-group-text">Question Type</span>
-                                    <select class="form-select" aria-label="Default select example">
-                                        <option selected>Open this select menu</option>
+                                    <select class="form-select" aria-label="Default select example" value={question.answertype} onChange={e => changeType(index, e)}>
+                                        <option value="">Open this select menu</option>
                                         <option value="text">Text</option>
                                         <option value="radio">Radio</option>
                                         <option value="checkbox">Checkbox</option>
                                     </select>
                                 </div>
+                                <div className="my-3">
+                                    {displayOptions(index, question.answertype, question.options)}
 
+
+                                </div>
                             </div>
                         </div>
                     ))
                 }
                 <Button onClick={addNewQuestion} className="mt-5" color="primary" variant="contained">Add New Question</Button>
+
             </div>
 
-            <Button className="w-100 mt-5" >Create Course</Button>
+
 
         </div>
     )

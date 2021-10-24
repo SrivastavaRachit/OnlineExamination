@@ -24,7 +24,7 @@ const Login = () => {
   };
 
   const formSubmit = (values) => {
-    fetch(url + "user/getbyemail/" + values.email)
+    fetch(url + "/user/getbyemail/" + values.email)
       .then((res) => res.json())
       .then((data) => {
         if (data) {
@@ -94,8 +94,6 @@ const Login = () => {
           </div>
         </div>
       </div>
-
-      <div class="wrap"></div>
     </div>
   );
 };
