@@ -1,5 +1,5 @@
 import React from "react";
-import "../stylesheets/Login.css";
+// import "../stylesheets/Login.css";
 import { Formik } from "formik";
 import Swal from "sweetalert2";
 import clsx from "clsx";
@@ -87,7 +87,9 @@ const Login = () => {
                   <a href="" class="forgot_link">
                     forgot ?
                   </a>
-                  <button className="btn btn-primary w-100">Sign in</button>
+                  <button type="submit" className="btn btn-primary w-100">
+                    Sign in
+                  </button>
                 </form>
               )}
             </Formik>
