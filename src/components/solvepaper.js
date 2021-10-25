@@ -15,6 +15,7 @@ import { useParams } from "react-router";
 import app_config from "../config";
 import update from "immutability-helper";
 import { Formik } from "formik";
+import Swal from "sweetalert2";
 
 const SolvePaper = () => {
   const [paper, setPaper] = useState({});
@@ -30,6 +31,35 @@ const SolvePaper = () => {
         console.log(data);
         setPaper(data);
         setLoading(false);
+      });
+  };
+
+  const answerForm = {
+    author: "",
+    paper: "",
+    name: "",
+    email: "",
+    data: {},
+  };
+
+  const submitAnswer = (values) => {
+    values.paper = paper._id;
+    values.data = paper.questions;
+
+    fetch(url + "/answer/add", {
+      method: "POST",
+      body: JSON.stringify(values),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        window.location.replace("/manage");
+        console.log(data);
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Your response has been submitted",
+        });
       });
   };
 
@@ -102,11 +132,44 @@ const SolvePaper = () => {
         <>
           <Card>
             <CardContent>
-              <p>Question : {paper.course}</p>
+              <p>Paper Name : {paper.course}</p>
               <p>Max Marks : {paper.max}</p>
 
-              <Formik initialValues={} onSubmit={}>
-                
+              <Formik initialValues={answerForm} onSubmit={submitAnswer}>
+                {({ values, handleChange, handleSubmit }) => (
+                  <form onSubmit={handleSubmit}>
+                    <div className="row">
+                      <div className="col-md">
+                        <TextField
+                          className="w-100"
+                          variant="filled"
+                          label="Name"
+                          id="name"
+                          value={values.name}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="col-md">
+                        <TextField
+                          className="w-100"
+                          variant="filled"
+                          label="Email"
+                          id="email"
+                          value={values.email}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+                    <Button
+                      className="mt-5"
+                      color="primary"
+                      variant="contained"
+                      type="submit"
+                    >
+                      Submit Answers
+                    </Button>
+                  </form>
+                )}
               </Formik>
             </CardContent>
           </Card>
@@ -122,23 +185,12 @@ const SolvePaper = () => {
                 </div>
               ))}
             </CardContent>
-            <CardActions>
-              <Button color="primary" variant="contained">
-                Submit Answers
-              </Button>
-            </CardActions>
+            <CardActions></CardActions>
           </Card>
         </>
       );
     }
   };
-
-
-  const submitAnswer = () => {
-    const value = {
-
-    }
-  }
 
   return <Container>{showPaper()}</Container>;
 };

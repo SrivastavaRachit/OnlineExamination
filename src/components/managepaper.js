@@ -26,7 +26,14 @@ const ManagePaper = () => {
           <CardContent>
             <p>Course : {paper.course}</p>
             <p>Max Marks : {paper.max}</p>
-            <Button variant="contained">Copy Link</Button>
+            <Button
+              variant="contained"
+              onClick={() =>
+                copyClip("http://localhost:3000/solve/" + paper._id)
+              }
+            >
+              Copy Link
+            </Button>
             <Link
               variant="contained"
               component={Button}
@@ -43,6 +50,10 @@ const ManagePaper = () => {
   useEffect(() => {
     fetchPapers();
   }, []);
+
+  const copyClip = (text) => {
+    navigator.clipboard.writeText(text).then(function () {});
+  };
 
   return (
     <Container>
