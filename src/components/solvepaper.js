@@ -105,7 +105,7 @@ const SolvePaper = () => {
               <p>Question : {paper.course}</p>
               <p>Max Marks : {paper.max}</p>
 
-              <Formik initialValues={} onSubmit={}>
+              <Formik initialValues ={} onSubmit={}>
                 
               </Formik>
             </CardContent>
